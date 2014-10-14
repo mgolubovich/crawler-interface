@@ -1,0 +1,136 @@
+form method="POST" action="#{ @source.new_record? ? "/sources" : "/sources/" + @source._id }"
+  -unless @source.new_record?
+    input type="hidden" name="_method" value="PUT"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_name" Название источника
+    div.medium-5.columns.end
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" string
+        div class="medium-9 columns"
+          input type="text" name="source[name]" id="source_name" value="#{@source.name}"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_url" URL Источника
+    div.medium-5.columns.end
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" url
+        div class="medium-9 columns"
+          input type="text" name="source[url]" id="source_url" value="#{@source.url}"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_comment" Комментарий источника
+    div.medium-5.columns.end
+      textarea name="source[comment]" id="source_comment" rows="5" #{@source.comment}
+
+  div.row
+    div.medium-3.columns
+      label.inline.left Активность
+    div.medium-5.columns.end
+      div.switch.medium
+        = check_box_tag "source[is_active]", 1, @source.is_active
+        label for="source_is_active"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_resque_frequency" Переодичность запуска
+    div.medium-5.columns.end
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" minutes
+        div class="medium-9 columns"
+          input type="text" name="source[resque_frequency]" id="source_resque_frequency" value="#{@source.resque_frequency}"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_deep_level" Количество тендеров для парсинга
+    div.medium-5.columns.end
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" int
+        div class="medium-9 columns"
+          input type="text" name="source[deep_level]" id="source_deep_level" value="#{@source.deep_level}"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_priority" Приоритет
+    div.medium-5.columns.end
+      select name="source[priority]" id="source_priority"
+        - @priorities.each do |priority, name|
+          option[value="#{priority}" selected=("selected" if @source.priority == priority)] #{name}
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_type" Тип источника
+    div.medium-5.columns.end
+      select name="source[source_type]" id="source_type"
+        option[value="auto" selected=("selected" if @source.source_type == :auto)] Автоматический
+        option[value="manual" selected=("selected" if @source.source_type == :manual)] Ручной
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_proxy_update_frequency" Смена прокси
+    div.medium-5.columns
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" type
+        div class="medium-9 columns"
+          select name="source[proxy_update_frequency][type]"
+            option[value="hits" selected=("selected" if @source.proxy_update_frequency["type"] == "hits")] По количеству тендеров
+            option[value="time" selected=("selected" if @source.proxy_update_frequency["type"] == "time")] По времени
+    div.medium-4.columns.end
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" value
+        div class="medium-9 columns"
+          input type="text" name="source[proxy_update_frequency][value]" id="source_proxy_update_frequency" value="#{@source.proxy_update_frequency["value"]}"
+
+  div.row
+    div.medium-3.columns
+      label.inline.left for="source_trigger_class_name" Триггер
+    div.medium-5.columns
+      div class="row collapse prefix-radius"
+        div class="medium-3 columns"
+          span class="prefix" class
+        div class="medium-9 columns"
+          input type="text" name="source[trigger][class_name]" id="source_trigger_class_name" value="#{@source.trigger[:class_name].to_s}"
+    div.medium-2.columns
+      div class="row collapse prefix-radius"
+        div.medium-6.columns
+          span class="prefix" before
+        div.medium-6.columns
+          select name="source[trigger][before]"
+            option[value="0" selected=("selected" unless @source.trigger[:before])] Нет
+            option[value="1" selected=("selected" if @source.trigger[:before])] Да
+    div.medium-2.columns.end
+      div class="row collapse prefix-radius"
+        div.medium-6.columns
+          span class="prefix" after
+        div.medium-6.columns
+          select name="source[trigger][after]"
+            option[value="0" selected=("selected" unless @source.trigger[:after])] Нет
+            option[value="1" selected=("selected" if @source.trigger[:after])] Да
+    hr
+
+  div.row
+    div.medium-10.columns.text-center
+      input.button type="submit" value="Отправить"
+    - unless @source.new_record?
+      div.medium-2.columns.text-right
+        a.button.alert href="#" data-reveal-id="delete-source-modal" Удалить
+
+- unless @source.new_record?
+  div.reveal-modal.text-center id="delete-source-modal" data-reveal=""
+    h3 Подтверждение удаления источника
+    p Точно удалить источник #{@source.name}[#{@source._id}]?
+    div.row
+      div.middle-6.columns
+        form method="POST" action="/sources/#{ @source._id }"
+          input type="hidden" name="_method" value="DELETE"
+          input.button.alert type="submit" value="Да, удалить"
+    a.close-reveal-modal &#215;

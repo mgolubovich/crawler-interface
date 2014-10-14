@@ -1,0 +1,39 @@
+
+div.row
+  div.medium-12.columns
+    h1 Список  картриджей. Всего: #{ @total_count }
+  hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @cartridges
+hr
+
+table.source-table
+  thead
+    tr
+      th style="width: 50px" #
+      th style="width: 210px" ID
+      th Название
+      th Источник
+      th style="width: 120px"
+      th style="width: 120px"
+      th style="width: 100px" Активность
+  tbody
+    - @cartridges.each do |cartridge|
+      - @counter = @counter + 1
+      tr
+        td.small-text-center #{@counter}
+        td #{cartridge._id}
+        td: a href="/cartridges/#{ cartridge._id }/edit" #{ cartridge.name }
+        td: a href="/sources/#{ cartridge.source._id }" #{ cartridge.source.name }
+        td: a href="/cartridges/#{ cartridge._id }/edit" Редактировать
+        td: a.cartridge_copy href="#" cartridge_id="#{ cartridge._id }" Копировать
+        td: div.switch.switch-ajax.small
+          = check_box_tag "cartridge_#{ cartridge._id }", 1, cartridge.is_active
+          label for="cartridge_#{ cartridge._id }"
+hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @cartridges

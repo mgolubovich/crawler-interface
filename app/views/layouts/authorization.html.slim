@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Crawler Interface
+    link href="/css/foundation.min.css" rel="stylesheet" type="text/css"
+    link href="/foundation-icon-fonts-3/foundation-icons.css" rel="stylesheet" type="text/css"
+    link href="/css/style.css" rel="stylesheet" type="text/css"
+  body
+    div.inner-wrap
+      section.content.authorization
+        div.row
+          div.medium-4.columns
+            == yield
+
+      div#inner-wrap_footer
+
+    section#footer
+      div.row
+        p.copyright © 1998‐2014 ESTP, Inc. All rights reserved.
+
+  script type="text/javascript" src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"
+  script type="text/javascript" src="/js/foundation.min.js"
+  script type="text/javascript" src="/js/foundation/foundation.tooltip.js"
+
+
+
+

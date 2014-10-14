@@ -1,0 +1,129 @@
+form method="POST" action="#{ @cartridge.new_record? ? "/cartridges" : "/cartridges/" + @cartridge._id }"
+  -unless @cartridge.new_record?
+    input type="hidden" name="_method" value="PUT"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_name" Название картриджа
+    div.medium-8.columns.end
+      div.row.collapse.prefix-radius
+        div.medium-3.columns: span.prefix string
+        div.medium-9.columns: input type="text" name="cartridge[name]" id="cartridge_name" value="#{@cartridge.name}"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_url" Источник
+    div.medium-8.columns.end
+      select name="cartridge[source_id]" id="cartridge_source_id"
+        - @sources.each do |source|
+          option[value="#{ source._id }" selected=("selected" if source._id == @cartridge.source_id)] #{ source.name }
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_base_link_template" Базвый шаблон ссылки
+    div.medium-8.columns.end: input name="cartridge[base_link_template]" id="cartridge_base_link_template" type="text" value="#{ @cartridge.base_link_template }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_base_list_template" Базвый шаблон списка
+    div.medium-8.columns.end: input name="cartridge[base_list_template]" id="cartridge_base_list_template" type="text" value="#{ @cartridge.base_list_template }"
+
+  div.row
+    div.medium-4.columns: label.inline.left Активность
+    div.medium-8.columns.end
+      div.switch.medium
+        = check_box_tag "cartridge[is_active]", 1, @cartridge.is_active
+        label for="cartridge_is_active"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_tender_type" Тип парсинга
+    div.medium-8.columns.end
+      select name="cartridge[reaping_type]" id="cartridge_reaping_type"
+        option[value="page" selected=("selected" if @cartridge.tender_type == :page)] page
+        option[value="list" selected=("selected" if @cartridge.tender_type == :list)] list
+        option[value="mixed" selected=("selected" if @cartridge.tender_type == :mixed)] mixed
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_tender_type" Тип тендера
+    div.medium-8.columns.end
+      select name="cartridge[tender_type]" id="cartridge_tender_type"
+        option[value="223" selected=("selected" if @cartridge.tender_type == "223")] 223
+        option[value="44" selected=("selected" if @cartridge.tender_type == "44")] 44
+
+  div.row
+    div.medium-4.columns: label.inline.left for="cartridge_delay_between_tenders" Задержка между парсингом
+    div.medium-8.columns.end
+      div.row.collapse.prefix-radius
+        div.medium-3.columns: span.prefix seconds
+        div.medium-9.columns: input type="text" name="cartridge[delay_between_tenders]" id="cartridge_delay_between_tenders" value="#{ @cartridge.delay_between_tenders }"
+
+  div.row
+    div.medium-4.columns: label.inline.left Смещение
+    div.medium-4.columns
+      div.row.collapse.prefix-radius
+        div.medium-6.columns: span.prefix start
+        div.medium-6.columns: input type="text" name="cartridge[list_offset][start]" id="cartridge_list_offset_start" value="#{ @cartridge.list_offset["start"] }"
+    div.medium-4.columns.end
+      div.row.collapse.prefix-radius
+        div.medium-6.columns: span.prefix end
+        div.medium-6.columns: input type="text" name="cartridge[list_offset][end]" id="cartridge_list_offset_end" value="#{ @cartridge.list_offset["end"] }"
+    hr
+
+  div.row
+    div.medium-4.columns: label Значения тендеров по-умолчанию
+    div.medium-8.columns#default_values
+      - unless @cartridge.default_tender_values.to_s.empty?
+        - @cartridge.default_tender_values.each do |field, value|
+          input.default_values type="hidden" name="#{field}" value="#{value}"
+    hr
+
+  div.row
+    div.medium-4.columns: label Page Manager
+    div.medium-8.columns.end
+      div.row.collapse
+        div.medium-3.columns: span.prefix action_type
+        div.medium-9.columns.end
+          select name="page_manager[action_type]" id="page_manager_action_type"
+            option[value="get" selected=("selected" if @page_manager.action_type == :get)] get
+            option[value="js" selected=("selected" if @page_manager.action_type == :js)] js
+            option[value="click" selected=("selected" if @page_manager.action_type == :click)] click
+      div.row.collapse
+        div.medium-3.columns: span.prefix action_value
+        div.medium-9.columns.end: textarea name="page_manager[action_value]" id="page_manger_action_value" rows="5" #{ @page_manager.action_value }
+      div.row.collapse
+        div.medium-3.columns: span.prefix page_number_start_value
+        div.medium-9.columns.end: input type="text" name="page_manager[page_number_start_value]" id="page_manger_page_number_start_value" value="#{ @page_manager.page_number_start_value }"
+      div.row.collapse
+        div.medium-3.columns: span.prefix  delay_between_pages
+        div.medium-9.columns.end: input type="text" name="page_manager[delay_between_pages]" id="page_manger_delay_between_pages" value="#{ @page_manager.delay_between_pages }"
+      div.row.collapse
+        div.medium-3.columns: span.prefix leading_zero
+        div.medium-9.columns.end
+          select name="page_manager[leading_zero]" id="page_manager_leading_zero"
+            option value="1" selected=("selected" if @page_manager.leading_zero) yes
+            option value="0" selected=("selected" unless @page_manager.leading_zero) no
+    hr
+  div.row
+    div.medium-4: label Selectors
+    div.medium-12
+      div.row#selectors
+        - @selectors.each do |selector|
+          input type="hidden" name="selector_#{selector._id}" selector_id="#{selector._id}" class="selectors"
+    hr
+
+  div.row
+    div.medium-10.columns.text-center
+      input.button type="submit" value="Отправить"
+    - unless @cartridge.new_record?
+      div.medium-2.columns.text-right
+        a.button.alert href="#" data-reveal-id="delete-cartridge-modal" Удалить
+
+- unless @cartridge.new_record?
+  div.reveal-modal.text-center id="delete-cartridge-modal" data-reveal=""
+    h3 Подтверждение удаления картриджа
+    p Точно удалить картрджа #{@cartridge.name}[#{@cartridge._id}]?
+    div.row
+      div.middle-6.columns
+        form method="POST" action="/cartridges/#{ @cartridge._id }"
+          input type="hidden" name="_method" value="DELETE"
+          input.button.alert type="submit" value="Да, удалить"
+    a.close-reveal-modal &#215;
+
+script type="text/javascript" src="/js/cartridge-default-values.js"
+script type="text/javascript" src="/js/cartridge-selectors.js"

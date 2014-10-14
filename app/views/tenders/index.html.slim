@@ -1,0 +1,78 @@
+div.row
+  div.medium-12.columns
+    h1 Список  тендеров. Всего: #{ @total_count }
+  hr
+
+div.row
+  div.medium-8.columns.medium-centered
+    form action="/tenders" method="get"
+      div.row
+        div.medium-3.columns: label for="filter_date_start" Начало периода
+        div.medium-9.columns: input type="text" name="filter[date_start]" id="filter_date_start" value="#{@filter[:date_start]}" data-date="" data-date-format="%d.%m.%Y" data-nullable=""
+      div.row
+        div.medium-3.columns: label for="filter_date_end"  Конец периода
+        div.medium-9.columns: input type="text" name="filter[date_end]" id="filter_date_end" value="#{@filter[:date_end]}" data-date="" data-date-format="%d.%m.%Y" data-nullable=""
+      div.row
+        div.medium-3.columns: label for="filter_code_by_source" Code by source
+        div.medium-9.columns: input type="text" name="filter[code_by_source]" id="filter_code_by_source" value="#{@filter[:code_by_source]}" placeholder="0123456789"
+      div.row
+        div.medium-3.columns: label for="filter_source_id" Источник
+        div.medium-9.columns: input type="text" name="filter[source_id]" id="filter_source_id" value="#{@filter[:source_id]}" placeholder="0123456789"
+      div.row
+        div.medium-3.columns: label for="filter_created_by" Тип добавления
+        div.medium-9.columns
+          select name="filter[created_by]" id="filter_created_by"
+            option value="" Все
+            option[value="parser" selected=("selected" if @filter[:created_by] == "parser")] Автоматический
+            option[value="human" selected=("selected" if @filter[:created_by] == "human")] Ручной
+      div.row
+        div.medium-6.columns.medium-push-4
+          input type="submit" class="button" value="Применить"
+        div.medium-6.columns
+          input type="button" class="button success [radius round]" value="Сбросить" onclick="window.location.href = '/tenders'"
+
+  hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @tenders
+hr
+
+table.source-table
+  thead
+    tr
+      th style="width: 50px" #
+      th style="width: 210px" ID
+      th style="width: 50px"
+      th Название
+      th style="width: 50px"
+      th style="width: 50px" URL
+      th Источник
+      th style="width: 100px" Картридж
+      th style="width: 70px" Регион
+      th.text-center style="width: 105px" Город
+      th.text-center style="width: 120px" Дата создания
+      th.text-center style="width: 120px" Дата последнего изменения
+  tbody
+    - @tenders.each do |tender|
+      - @counter = @counter + 1
+      tr
+        td.small-text-center #{@counter}
+        td #{tender._id}
+        td
+          - span_class = tender.created_by == :human ? "torso" : "widget"
+          span class="fi-#{span_class} medium"
+        td: a href="/tenders/#{ tender._id }" #{ tender.title }
+        td: a href="/tenders/#{ tender._id }/edit" class="fi-wrench medium"
+        td: a href="#{tender.source_link}" class="fi-link medium has-tip" data-tooltip="" aria-haspopup="true" title="#{tender.source_link}"
+        td: a href="/sources/#{ tender.source._id }" #{ tender.source.name }
+        td.text-center #{tender.group}
+        td.text-center #{tender.region_code}
+        td #{tender.city_code}
+        td.text-center #{tender.created_at.strftime("%d.%m.%Y %H:%M:%S") if tender.created_at}
+        td.text-center #{tender.updated_at.strftime("%d.%m.%Y %H:%M:%S") if tender.updated_at}
+hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @tenders

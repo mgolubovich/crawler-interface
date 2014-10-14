@@ -1,0 +1,118 @@
+form method="POST" action="/tenders#{ @tender.new_record? ? "" : "/" + @tender._id }"
+  -unless @tender.new_record?
+    input type="hidden" name="_method" value="PUT"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_title" Название тендера
+    div.medium-8.columns: input type="text" name="tender[title]" id="tender_title" value="#{ @tender.title }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_source_id" Источник
+    div.medium-8.columns
+      select name="tender[source_id]" id="tender_source_id"
+        - @sources.each do |source|
+          option[value="#{source._id}" selected=("selected" if source._id == @tender.source_id)] #{source.name}
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_code_by_source" Code by source
+    div.medium-8.columns
+      div.row.collapse
+        div.medium-9.columns
+          input[type="text" name="tender[code_by_source]" id="tender_code_by_source" value="#{ @tender.code_by_source }" disabled=("disabled" unless @tender.code_by_source.to_s.empty?)]
+        div.medium-3.columns
+          input type="button" name="check_code_by_source" id="check_code_by_source" value="Проверить" class="#{@tender.code_by_source.to_s.empty? ? "button postfix" : "button postfix disabled"}"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_tender_form" Tender form
+    div.medium-8.columns: input type="text" name="tender[tender_form]" id="tender_tender_form" value="#{ @tender.tender_form }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_external_work_type" Тип тендера
+    div.medium-8.columns
+      select name="tender[external_work_type]" id="tender_external_work_type"
+        option[value="1" selected=("selected" if @tender.external_work_type == 1)] Строительные
+        option[value="2" selected=("selected" if @tender.external_work_type == 2)] Проектные
+        option[value="3" selected=("selected" if @tender.external_work_type == 3)] Изыскательные
+        option[value="4" selected=("selected" if @tender.external_work_type == 4)] Поставка
+        option[value="5" selected=("selected" if @tender.external_work_type == 5)] Сервис и ТО
+
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_source_link" Ссылка на заказ
+    div.medium-8.columns: input type="text" name="tender[source_link]" id="tender_source_link" value="#{ @tender.source_link }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_customer_inn" ИНН заказачика(?)
+    div.medium-8.columns: input type="text" name="tender[customer_inn]" id="tender_customer_inn" value="#{ @tender.customer_inn}"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_customer_name" Название заказчика
+    div.medium-8.columns: input type="text" name="tender[customer_name]" id="tender_customer_name" value="#{ @tender.customer_name }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_customer_address" Адресс заказа
+    div.medium-8.columns: input type="text" name="tender[customer_address]" id="tender_customer_address" value="#{ @tender.customer_address }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_start_price" Начальная стоимость
+    div.medium-8.columns: input type="text" name="tender[start_price]" id="tender_start_price" value="#{ @tender.start_price }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_id_by_source" ID by source
+    div.medium-8.columns: input type="text" name="tender[id_by_source]" id="tender_id_by_source" value="#{ @tender.id_by_source }"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_group" Номер закона
+    div.medium-8.columns
+      select name="tender[group]" id="tender_group"
+        option[value="223" selected=("selected" if @tender.group == "223")] 223
+        option[value="44" selected=("selected" if @tender.group == "44")] 44
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_start_at" Start at
+    div.medium-8.columns
+      input type="text" name="tender[start_at]" id="tender_start_at" value=("#{ @tender.start_at.strftime("%Y-%m-%d %H:%M:%S") unless @tender.start_at.nil? }") data-date-time="" data-value-format="%Y-%m-%d %H:%M:%S" data-time-format="%H:%M:%S"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_published_at" Published_ad
+    div.medium-8.columns
+      input type="text" name="tender[published_at]" id="tender_published_at" value=("#{ @tender.published_at.strftime("%Y-%m-%d %H:%M:%S") unless @tender.published_at.nil? }") data-date-time="" data-value-format="%Y-%m-%d %H:%M:%S" data-time-format="%H:%M:%S"
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_region_code" Регион
+    div.medium-8.columns
+      select name="tender[region_code]" id="tender_region_code"
+        option value="-1" --
+        - @regions.each do |region|
+          option[value="#{ region.region_code }" selected=("selected" if @tender.region_code == region.region_code)] #{region.name}
+
+  div.row
+    div.medium-4.columns: label.inline.left for="tender_city_code" Город
+    div.medium-8.columns
+      select name="tender[city_code]" id="tender_city_code"
+        option value="-1" --
+        - @cities.each do |city|
+          option[value="#{ city.city_code }" selected=("selected" if @tender.city_code == city.city_code)] #{city.name}
+
+
+
+  div.row
+    div.medium-10.columns.text-center
+      input.button type="submit" value="Отправить"
+    - unless @tender.new_record?
+      div.medium-2.columns.text-right
+        a.button.alert href="#" data-reveal-id="delete-tender-modal" Удалить
+
+- unless @tender.new_record?
+  div.reveal-modal.text-center id="delete-tender-modal" data-reveal=""
+    h3 Подтверждение удаления тендера
+    p Точно удалить тендер #{@tender.title}[#{@tender._id}]?
+    div.row
+      div.middle-6.columns
+        form method="POST" action="/tenders/#{ @tender._id }"
+          input type="hidden" name="_method" value="DELETE"
+          input.button.alert type="submit" value="Да, удалить"
+    a.close-reveal-modal &#215;
+
+
+script type="text/javascript" src="/js/tender-check-code-by-source.js"

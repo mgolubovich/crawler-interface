@@ -1,0 +1,76 @@
+.inner-wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em;
+}
+
+#footer, #inner-wrap_footer {
+    height: 4em;
+}
+
+.row {
+    max-width: 90em;
+}
+
+td.link-break-word {
+    word-wrap: break-word;
+}
+
+#footer {
+    background: none repeat scroll 0 0 #333;
+    padding: 24px 0 10px;
+}
+
+section.content {
+    padding: 2em 1em;
+}
+
+.copyright {
+    color: #666;
+    font-size: 0.66667rem;
+    margin: 6px 0 0;
+}
+
+div.switch input:checked + label {
+    background: none repeat scroll 0 0 green;
+}
+
+div.switch input + label {
+    background: none repeat scroll 0 0 red;
+}
+
+.button.btn-orange {
+    background-color: #FF9900;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-green {
+    color: green;
+}
+
+.flash-alert {
+    color: orangered;
+    font-weight: bold;
+}
+
+.flash-notice {
+    color: deepskyblue;
+    font-weight: bold;
+}
+
+.flash-error {
+    color: darkred;
+    font-weight: bold;
+}
+
+.button.disabled {
+    background-color: #cccccc;
+}
+
+.button.disabled:hover, .button.disabled:focus {
+    background-color: #dddddd;
+}

@@ -1,0 +1,58 @@
+doctype html
+html
+  head
+    title Crawler Interface
+    link href="/css/foundation.min.css" rel="stylesheet" type="text/css"
+    link href="/css/foundation_calendar.css" rel="stylesheet" type="text/css"
+    link href="/foundation-icon-fonts-3/foundation-icons.css" rel="stylesheet" type="text/css"
+    link href="/css/style.css" rel="stylesheet" type="text/css"
+    script type="text/javascript" src="/js/vendor/modernizr.js"
+    script type="text/javascript" src="/js/vendor/jquery.js"
+  body
+    div.inner-wrap
+      section#header
+        nav.top-bar role="navigation" data-topbar=""
+          ul.title-area: li.name: h1: a href="/" Tender Crawler
+
+          section.top-bar-section
+            ul.left
+              li.has-dropdown
+                a href="/sources" Источники
+                ul.dropdown
+                  li: a href="/sources/new" Добавить
+              li.has-dropdown
+                a href="/cartridges" Картриджи
+                ul.dropdown
+                  li: a href="/cartridges/new" Добавить
+              li.has-dropdown
+                a href="/tenders" Тендеры
+                ul.dropdown
+                  li: a href="/tenders/new" Добавить
+            ul.right
+              li: a #{current_user ? current_user.email: ""}
+              li.has-form
+                form action="#{destroy_user_session_path}" method="POST"
+                  input type="hidden" name="_method" value="DELETE"
+                  input type="hidden" name="authenticity_token" value="#{form_authenticity_token}"
+                  input.button type="submit" value="Log out"
+
+
+      section#content
+        == yield
+      div#inner-wrap_footer
+
+    section#footer
+      div.row
+        p.copyright © 1998‐2014 ESTP, Inc. All rights reserved.
+
+  script type="text/javascript" src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"
+  script type="text/javascript" src="/js/foundation.min.js"
+  script type="text/javascript" src="/js/common.js"
+  script type="text/javascript" src="/js/foundation/foundation.tooltip.js"
+
+  script type="text/javascript" src="/js/date.js"
+  script type="text/javascript" src="/js/foundation_calendar.js"
+  script type="text/javascript" src="/js/date-helpers.js"
+  script type="text/javascript" src="/js/string-helpers.js"
+
+

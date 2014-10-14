@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :users
+  resources :sources, :cartridges, :tenders
+
+  root :to => 'default#index'
+  get '/error', :to => 'default#error'
+
+  get '/api/switch/:model/:id/:active/', to: 'api#switch'
+  get '/api/default-tender-values', to: 'api#default_tender_values'
+  get '/api/check-code-source/:source_id/:code_by_source', to: 'api#check_code_source'
+  get '/api/selector-types', to: 'api#selector_types'
+  get '/api/selector/:id/', to: 'api#selector'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

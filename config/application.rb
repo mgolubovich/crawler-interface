@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'slim'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -19,5 +20,13 @@ module CrawlerInterface
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.to_prepare do
+      Devise::SessionsController.layout "authorization"
+      Devise::RegistrationsController.layout "authorization"
+      Devise::ConfirmationsController.layout "authorization"
+      Devise::UnlocksController.layout "authorization"
+      Devise::PasswordsController.layout "authorization"
+    end
   end
 end

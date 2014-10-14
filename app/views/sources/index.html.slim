@@ -1,0 +1,75 @@
+
+div.row
+  div.medium-12.columns
+    h1 Список источников. Всего: #{ @total_sources_count }
+  hr
+
+div.row
+  div.medium-4.medium-offset-4.columns
+    form action="/sources" method="get"
+      div.row
+        div.medium-3.columns
+          label.left.inline for="filter_search" Поиск
+        div.medium-9.columns
+          input id="filter_search" name="filter[search]" type="text" placeholder="" value="#{@filter[:search]}"
+      div.row
+        div.medium-3.columns
+          label.left.inline for="filter_type" Тип источника
+        div.medium-9.columns
+          select#filter_type name="filter[type]"
+            option value="" Все
+            option[value="auto" selected=("selected" if @filter[:type].to_sym == :auto)] Автоматический
+            option[value="manual" selected=("selected" if @filter[:type].to_sym == :manual)] Ручной
+      div.row
+        div.medium-6.columns.medium-push-2
+          input type="submit" class="button [radius round]" value="Применить"
+        div.medium-6.columns
+          input type="button" class="button success [radius round]" value="Сбросить" onclick="window.location.href = '/sources'"
+  hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @sources
+hr
+
+
+table.source-table
+  thead
+    tr
+      th style="width: 50px" #
+      th style="width: 210px" ID
+      th style="width: 50px"
+      th Название
+      th style="width: 50px" URL
+      th style="width: 120px"
+      th style="width: 100px" Картриджы
+      th style="width: 90px"
+      th style="width: 90px" Тендеры
+      th style="width: 90px"
+      th style="width: 120px" Конструкции
+      th style="width: 100px" Активность
+  tbody
+    - @sources.each do |source|
+      - @counter = @counter + 1
+      tr
+        td.small-text-center #{@counter}
+        td #{source._id}
+        td
+          - span_class = source.source_type == :manual ? "torso" : "widget"
+          span class="fi-#{span_class} medium"
+        td: a href="/sources/#{ source._id }/edit" #{ source.name }
+        td: a href="#{ source.url }" class="fi-link medium has-tip" data-tooltip="" aria-haspopup="true" title="#{ source.url }"
+        td: a href="/sources/#{ source._id }/edit" Редактировать
+        td.small-text-center: a href="/cartridges/?source_id=#{ source._id }": strong #{ source.cartridges.count }
+        td: a href="/cartridges/new?source_id=#{source._id}" Добавить
+        td.small-text-center: a href="/tenders/?source_id=#{ source._id }": strong #{ source.tenders_count }
+        td: a href="/tenders/new?source_id=#{ source._id }" Добавить
+        td.small-text-center #{ source.construction_tenders_count }
+        td: div.switch.switch-ajax.small
+          = check_box_tag "source_#{ source._id }", 1, source.is_active
+          label for="source_#{ source._id }"
+hr
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @sources
