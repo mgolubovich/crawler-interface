@@ -11,6 +11,8 @@
 /config/database.yml
 /config/mongoid.yml
 /config/unicorn.rb
+/config/deploy/production.rb
+/config/deploy/develop.rb
 
 
 
