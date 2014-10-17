@@ -99,11 +99,11 @@ form method="POST" action="/tenders#{ @tender.new_record? ? "" : "/" + @tender._
   div.row
     div.medium-10.columns.text-center
       input.button type="submit" value="Отправить"
-    - unless @tender.new_record?
+    - if !@tender.new_record? && (can? :destroy, :tenders)
       div.medium-2.columns.text-right
         a.button.alert href="#" data-reveal-id="delete-tender-modal" Удалить
 
-- unless @tender.new_record?
+- if !@tender.new_record? && (can? :destroy, :tenders)
   div.reveal-modal.text-center id="delete-tender-modal" data-reveal=""
     h3 Подтверждение удаления тендера
     p Точно удалить тендер #{@tender.title}[#{@tender._id}]?

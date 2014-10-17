@@ -110,11 +110,11 @@ form method="POST" action="#{ @cartridge.new_record? ? "/cartridges" : "/cartrid
   div.row
     div.medium-10.columns.text-center
       input.button type="submit" value="Отправить"
-    - unless @cartridge.new_record?
+    - if !@cartridge.new_record? && (can? :destroy, :cartridges)
       div.medium-2.columns.text-right
         a.button.alert href="#" data-reveal-id="delete-cartridge-modal" Удалить
 
-- unless @cartridge.new_record?
+- if !@cartridge.new_record? && (can? :destroy, :cartridges)
   div.reveal-modal.text-center id="delete-cartridge-modal" data-reveal=""
     h3 Подтверждение удаления картриджа
     p Точно удалить картрджа #{@cartridge.name}[#{@cartridge._id}]?

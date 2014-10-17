@@ -1,4 +1,6 @@
 class ApiController < ApplicationController
+  before_action { |controller| authorize! controller.action_name.to_sym, :api }
+
   def switch
     element, model = nil
 

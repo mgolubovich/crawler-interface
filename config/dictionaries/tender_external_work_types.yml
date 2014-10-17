@@ -1,0 +1,18 @@
+0:
+  name: Не загружать
+  class: btn-orange
+1:
+  name: Строительные
+  class:
+2:
+  name: Проектные
+  class:
+3:
+  name: Поставка
+  class:
+4:
+  name: Изыскательные
+  class:
+5:
+  name: Сервис и ТО
+  class:

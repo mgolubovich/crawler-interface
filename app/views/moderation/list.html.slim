@@ -1,0 +1,42 @@
+div.row
+  h1 Список модерированных тендеров
+  hr
+
+div.row
+  p Отмодерированные тендеры сегодня:  #{@moderated_tenders}
+  p Осталось актуальные тендеров: #{@actual_tenders}
+  p Пропущенные тендеры: #{@skip_tenders}
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @tenders
+  hr
+
+div.row
+  table
+    thead
+      tr
+        th style="width: 50px"
+        th style="width: 200px" ID
+        th Название
+        th style="width: 50px"
+        th style="width: 150px" Тип
+        th style="width: 50px"
+        th style="width: 200px"
+
+    tbody
+      - @tenders.each do |tender|
+        - mark = tender.external_work_type == 0 ? :skip : tender.external_work_type > 0 ? :check : :alert
+        tr
+          td: i class="fi-#{@marks[mark][:icon]} medium" style="color: #{@marks[mark][:color]}"
+          td #{tender._id}
+          td #{tender.title}
+          td: a href="#{tender.source_link}" class="fi-link medium has-tip" data-tooltip="" aria-haspopup="true" title="#{tender.source_link}"
+          td #{ tender.external_work_type >= 0 ? ModerationController.external_work_types[tender.external_work_type]["name"] : "-"}
+          td: a href="/moderation/prev/#{ tender._id }/" class="fi-wrench medium"
+          td  #{@users[tender.moderated_by]}
+
+div.row
+  div.medium-6.medium-offset-4.columns
+    = paginate @tenders
+  hr

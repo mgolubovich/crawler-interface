@@ -11,6 +11,15 @@ Rails.application.routes.draw do
   get '/api/selector-types', to: 'api#selector_types'
   get '/api/selector/:id/', to: 'api#selector'
 
+
+  get '/moderation/', to: 'moderation#next'
+  get '/moderation/next/', to: 'moderation#next'
+  get '/moderation/prev/', to: 'moderation#prev'
+  get '/moderation/prev/:id', to: 'moderation#prev'
+  get '/moderation/list/', to: 'moderation#list'
+  get '/moderation/process/:id/:type/', to: 'moderation#moderate'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

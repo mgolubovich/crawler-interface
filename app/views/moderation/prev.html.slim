@@ -1,0 +1,18 @@
+div.row
+  h1 Модерация тендеров
+  h4 ID: #{@tender._id}
+  h4
+     | Название:&nbsp;
+     a href="#{@tender.source_link}" #{@tender.title}
+  hr
+
+
+div.row
+  - ModerationController.external_work_types.each do |id, type|
+    - classes = "button expand #{type["class"].to_s}"
+    div.medium-4.columns: a class="#{classes}" href="/moderation/process/#{@tender._id}/#{id}/?back=list" #{type["name"]}
+  hr
+
+div.row
+  div.medium-2.columns
+  div.medium-2.columns: a.button.expand href="/moderation/next/": i class="fi-arrow-right large"

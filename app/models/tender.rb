@@ -45,6 +45,9 @@ class Tender
   field :moderated_at, type: Time
   field :modified_at, type: Time
 
+  field :moderated_by, type: String
+  field :lock, type: Boolean, default: false
+
   # Source info
   # Code of tender based on source
   field :code_by_source, type: String

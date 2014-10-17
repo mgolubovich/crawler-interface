@@ -1,4 +1,6 @@
 class TendersController < ApplicationController
+  before_action { |controller| authorize! controller.action_name.to_sym, :tenders }
+
   def index
     init_filter
 

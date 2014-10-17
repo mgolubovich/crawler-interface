@@ -1,0 +1,34 @@
+section#header
+  nav.top-bar role="navigation" data-topbar=""
+    ul.title-area: li.name: h1: a href="/" Tender Crawler
+
+    section.top-bar-section
+      ul.left
+        - if can? :index, :sources
+          li.has-dropdown
+            a href="/sources" Источники
+            ul.dropdown
+              li: a href="/sources/new" Добавить
+        - if can? :index, :cartridges
+          li.has-dropdown
+            a href="/cartridges" Картриджи
+            ul.dropdown
+              li: a href="/cartridges/new" Добавить
+        - if can? :index, :tenders
+          li.has-dropdown
+            a href="/tenders" Тендеры
+            ul.dropdown
+              li: a href="/tenders/new" Добавить
+        - if can? :list, :moderation
+          li.has-dropdown
+            a Модерация
+            ul.dropdown
+              li: a href="/moderation/" Следующий
+              li: a href="/moderation/list/" Список
+      ul.right
+        li: a #{current_user ? current_user.email: ""}
+        li.has-form
+          form action="#{destroy_user_session_path}" method="POST"
+            input type="hidden" name="_method" value="DELETE"
+            input type="hidden" name="authenticity_token" value="#{form_authenticity_token}"
+            input.button type="submit" value="Log out"

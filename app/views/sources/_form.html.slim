@@ -120,11 +120,11 @@ form method="POST" action="#{ @source.new_record? ? "/sources" : "/sources/" + @
   div.row
     div.medium-10.columns.text-center
       input.button type="submit" value="Отправить"
-    - unless @source.new_record?
+    - if !@source.new_record? && (can? :destroy, :sources)
       div.medium-2.columns.text-right
         a.button.alert href="#" data-reveal-id="delete-source-modal" Удалить
 
-- unless @source.new_record?
+- if !@source.new_record? && (can? :destroy, :sources)
   div.reveal-modal.text-center id="delete-source-modal" data-reveal=""
     h3 Подтверждение удаления источника
     p Точно удалить источник #{@source.name}[#{@source._id}]?

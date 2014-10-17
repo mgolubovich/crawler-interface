@@ -74,6 +74,8 @@ namespace :user do
     end
 
     unless args.new_email.to_s.empty?
+      check_user = User.where(email: args.new_email).first
+      abort "Пользователь с таким email уже зарегестрирован." unless check_user.nil?
       params[:email] = args.new_email
     end
 

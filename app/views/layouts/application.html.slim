@@ -10,32 +10,7 @@ html
     script type="text/javascript" src="/js/vendor/jquery.js"
   body
     div.inner-wrap
-      section#header
-        nav.top-bar role="navigation" data-topbar=""
-          ul.title-area: li.name: h1: a href="/" Tender Crawler
-
-          section.top-bar-section
-            ul.left
-              li.has-dropdown
-                a href="/sources" Источники
-                ul.dropdown
-                  li: a href="/sources/new" Добавить
-              li.has-dropdown
-                a href="/cartridges" Картриджи
-                ul.dropdown
-                  li: a href="/cartridges/new" Добавить
-              li.has-dropdown
-                a href="/tenders" Тендеры
-                ul.dropdown
-                  li: a href="/tenders/new" Добавить
-            ul.right
-              li: a #{current_user ? current_user.email: ""}
-              li.has-form
-                form action="#{destroy_user_session_path}" method="POST"
-                  input type="hidden" name="_method" value="DELETE"
-                  input type="hidden" name="authenticity_token" value="#{form_authenticity_token}"
-                  input.button type="submit" value="Log out"
-
+      = render "layouts/header"
 
       section#content
         == yield

@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-
+  before_action { |controller| authorize! controller.action_name.to_sym, :sources }
   #method GET. Display a list of all sources
   def index
     init_filter
