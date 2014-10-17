@@ -8,6 +8,9 @@
 /.bundle
 /.idea
 
+/config/database.yml
+/config/mongoid.yml
+
 
 
 # Ignore the default SQLite database.
