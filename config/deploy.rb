@@ -42,8 +42,8 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
-      execute 'unistop'
-      execute 'unistart'
+      execute 'cat /home/deployer/crawler-interface/current/tmp/pids/unicorn.pid | xargs kill -QUIT'
+      execute 'unicorn -c /home/deployer/crawler-interface/current/config/unicorn.rb -E development -D'
     end
   end
 
