@@ -2,14 +2,14 @@
 lock '3.2.1'
 
 set :application, 'crawler-interface'
-set :repo_url, 'git@github.com:mgolubovich//crawler-interface.git'
+set :repo_url, 'git@github.com:mgolubovich/crawler-interface.git'
 set :branch, 'master'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/deployer//crawler-interface'
+set :deploy_to, '/home/deployer/crawler-interface'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -24,7 +24,7 @@ set :deploy_to, '/home/deployer//crawler-interface'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/unicorn.rb config/mongoid.yml config/secrets.yml}
+set :linked_files, %w{config/unicorn.rb config/mongoid.yml config/secrets.yml config/database.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets}
@@ -42,6 +42,8 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
+      execute :rake, 'deploy:unistop'
+      execute :rake, 'deploy:unistart'
     end
   end
 
