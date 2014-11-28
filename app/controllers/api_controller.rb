@@ -50,4 +50,18 @@ class ApiController < ApplicationController
     render :json => json
   end
 
+  def statistic_day
+    source = Source.find(params[:source])
+
+    render :json => [
+        source.name,
+        12,
+        123,
+        434,
+        123
+    ]
+
+
+  end
+
 end

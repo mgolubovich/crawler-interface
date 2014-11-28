@@ -6,8 +6,10 @@ html
     link href="/css/foundation_calendar.css" rel="stylesheet" type="text/css"
     link href="/foundation-icon-fonts-3/foundation-icons.css" rel="stylesheet" type="text/css"
     link href="/css/style.css" rel="stylesheet" type="text/css"
+    link href="/css/multiselect.css" rel="stylesheet" type="text/css"
     script type="text/javascript" src="/js/vendor/modernizr.js"
     script type="text/javascript" src="/js/vendor/jquery.js"
+    = csrf_meta_tags
   body
     div.inner-wrap
       = render "layouts/header"
@@ -29,5 +31,8 @@ html
   script type="text/javascript" src="/js/foundation_calendar.js"
   script type="text/javascript" src="/js/date-helpers.js"
   script type="text/javascript" src="/js/string-helpers.js"
+
+  script type="text/javascript" src="/js/foundation/foundation.multiselect.js"
+
 
 

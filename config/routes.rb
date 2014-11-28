@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   get '/api/check-code-source/:source_id/:code_by_source', to: 'api#check_code_source'
   get '/api/selector-types', to: 'api#selector_types'
   get '/api/selector/:id/', to: 'api#selector'
+  get '/api/statistic-day/', to: 'api#statistic_day'
 
+  get '/statistic/', to: 'statistic#index'
+  get '/statistic/day/', to: 'statistic#day'
 
   get '/moderation/', to: 'moderation#next'
   get '/moderation/next/', to: 'moderation#next'
@@ -18,6 +21,9 @@ Rails.application.routes.draw do
   get '/moderation/prev/:id', to: 'moderation#prev'
   get '/moderation/list/', to: 'moderation#list'
   get '/moderation/process/:id/:type/', to: 'moderation#moderate'
+
+  get '/dev/test/', to: 'dev#test'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

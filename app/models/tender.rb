@@ -90,8 +90,11 @@ class Tender
   field :status, type: Hash
   field :created_by, type: Symbol, default: :parser
 
-  index({ source_id: 1, code_by_source: 1 }, { unique: true })
-  index({ external_db_id: 1 }, { unique: true })
+  #index({ source_id: 1, code_by_source: 1 }, { unique: true })
+  index({ external_work_type: 1, moderated_at: -1})
+  index({ moderated_at: -1})
+  index({ external_work_type: 1, start_at: -1, lock: 1, moderated_by: 1})
+  #index({ external_db_id: 1 }, { unique: true })
 
   def data_attr
     attrs = attributes.symbolize_keys

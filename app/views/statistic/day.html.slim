@@ -1,0 +1,53 @@
+div.row
+  h1 Статистика по дням
+  hr
+
+div.row: form
+  div.row
+    div.medium-4.columns: label Период
+    div.medium-8.columns.end
+      div.row
+        div.medium-4.columns: label Начало
+        div.medium-8.columns
+          input type="text" name="date_start" id="date_start" value="#{ 6.day.ago.strftime("%Y-%m-%d") }" data-date="" data-date-format="%d.%m.%Y" data-nullable=""
+      div.row
+        div.medium-4.columns: label Конец
+        div.medium-8.columns
+          input type="text" name="date_end" id="date_end" value="#{ DateTime.now.strftime("%Y-%m-%d") }" data-date="" data-date-format="%d.%m.%Y" data-nullable=""
+
+
+
+
+  div.row
+    div.medium-4.columns: label.inline.left for="sources" Источники
+    div.medium-8.columns.end
+      div
+        select.multiselect name="sources[]" id="sources" multiple=""
+          optgroup label='Активные'
+            - @sources[:active].each do |source|
+              option[value="#{ source._id }"] #{ source.name }
+          optgroup label='Выключенные'
+            - @sources[:inactive].each do |source|
+              option[value="#{ source._id }"] #{ source.name }
+      hr
+      div#live
+      hr
+
+  div.row
+    div.medium-4.columns: label.inline.left for="work_type" Тип тендеров
+    div.medium-8.columns
+      select name="work_type" id="work_type"
+        option[value="0"] Все
+        option[value="1"] Строительные
+  div.text-center.row
+    a.button id="build" Построить таблицу
+  hr
+
+
+div.row
+  table#statistic
+    thead
+    tbody
+
+
+script type="text/javascript" src="/js/statistic-day.js"
